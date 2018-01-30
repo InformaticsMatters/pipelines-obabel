@@ -2,5 +2,3 @@
 *.iml
 .gradle
 **/*.pyc
-.gitmodules
-pipelines-utils
