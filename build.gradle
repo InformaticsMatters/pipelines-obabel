@@ -1,0 +1,82 @@
+// Copyright 2018 Informatics Matters Ltd. All rights reserved.
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-docker-plugin:3.0.11'
+    }
+}
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1'
+}
+
+task cleanDist(type: Delete) {
+    group = 'Distribution'
+    delete 'build/dist'
+}
+
+task dist(type: Copy) {
+    group = 'Distribution'
+    dependsOn cleanDist
+
+    destinationDir = file('build/dist')
+
+    from('src/python') {
+        includes = ['**/*.py','**/*.nf','**/*.json','**/*.yml',
+                    '**/*.nsd.nf','**/*.nsd.config','README.rst']
+        into 'pipelines'
+    }
+}
+
+def pipeline = 'obabel'
+def squonkSdDir = '../squonk/docker/deploy/data/docker-services'
+
+task buildDockerImage(type: DockerBuildImage) {
+    description 'Builds the obabel Docker image'
+
+    dockerFile = file('Dockerfile')
+    inputDir = file('.')
+    tag = "informaticsmatters/pipelines-${pipeline}:latest"
+}
+
+task buildSdLoaderDockerImage(type: DockerBuildImage) {
+    description 'Builds the obabel SD-loader Docker image'
+
+    dockerFile = file('Dockerfile-sdloader')
+    inputDir = file('.')
+    tag = "informaticsmatters/pipelines-${pipeline}-sdloader:latest"
+}
+
+task buildDockerImages() {
+    dependsOn buildDockerImage
+    dependsOn buildSdLoaderDockerImage
+
+    group 'Docker'
+    description 'Builds all the project Docker images'
+}
+
+task removeSquonkSd(type: Delete) {
+    delete "${squonkSdDir}/${pipeline}"
+    followSymlinks = true
+}
+
+task copySdToSquonk(type: Copy) {
+
+    dependsOn removeSquonkSd
+    dependsOn dist
+
+    destinationDir = file("${squonkSdDir}/${pipeline}")
+
+    from('build/dist/pipelines') {
+        into 'pipelines'
+    }
+
+}
