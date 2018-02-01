@@ -8,7 +8,7 @@
     // Simply makes sure it starts cleanly.
     test_help = [
 
-        command: '''python -m pipelines.obabel.docking.target_prepare_pdb -h'''
+        command: '''python -m pipelines_obabel.docking.target_prepare_pdb -h'''
 
     ],
 
