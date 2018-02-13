@@ -8,7 +8,7 @@ LABEL maintainer="Tim Dudgeon<tdudgeon@informaticsmatters.com>"
 
 USER root
 
-RUN apt-get -y update && apt-get -y install openbabel python-openbabel
+RUN apt-get -y update && apt-get install -y --no-install-recommends openbabel python-openbabel
 
 # Copy the obabel pipeline implementation into the image
 COPY src/python /opt/python-obabel
