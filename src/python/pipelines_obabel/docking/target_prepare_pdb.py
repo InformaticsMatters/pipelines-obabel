@@ -17,10 +17,13 @@
 import argparse
 import sys, subprocess
 
-from pipelines_utils import utils
+from pipelines_obabel import utils
 
 
 def execute(input, output, extension, format, ph, noGzip):
+
+    # TODO - convert this to use the Python API rather than an external process
+
     filename = output + "." + extension
     base_args = ["obabel", "-ipdb", input, format, "-O", filename]
     if ph:
