@@ -15,6 +15,5 @@ COPY src/python /opt/python-obabel
 RUN pip install -e /opt/python-obabel
 
 # and the pipeline-utilities
-COPY pipelines-utils/src/python /opt/pipelines-utils
-RUN pip install -e /opt/pipelines-utils
+RUN pip install im-pipelines-utils==1.0.*
 
