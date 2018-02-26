@@ -8,26 +8,30 @@
     // Simply makes sure it starts cleanly.
     test_help = [
 
-        command: '''python -m pipelines_obabel.docking.target_prepare_pdb -h'''
+        command: '''python -m pipelines_obabel.docking.target_prepare_pdb -h''',
+
+        stdout: [ 'usage: target_prepare_pdb.py' ]
 
     ],
 
     test_prepare_mol2 = [
 
-            command: 'python -m pipelines_obabel.docking.target_prepare_pdb -i ${PIN}DCP2_1.pdb.gz -o should_be_mol2 --mol2',
+        command: 'python -m pipelines_obabel.docking.target_prepare_pdb -i ${PIN}DCP2_1.pdb.gz -o should_be_mol2 --mol2',
 
-            see: [ 'Preparing as mol2'],
-            creates: [ 'should_be_mol2.mol2.gz' ]
+        stderr: [ 'Preparing as mol2'],
 
-        ],
+        creates: [ 'should_be_mol2.mol2.gz' ]
+
+    ],
 
     test_prepare_pdbqt = [
 
-                command: 'python -m pipelines_obabel.docking.target_prepare_pdb -i ${PIN}DCP2_1.pdb.gz -o should_be_pdbqt --pdbqt',
+        command: 'python -m pipelines_obabel.docking.target_prepare_pdb -i ${PIN}DCP2_1.pdb.gz -o should_be_pdbqt --pdbqt',
 
-                see: [ 'Preparing as pdbqt'],
-                creates: [ 'should_be_pdbqt.pdbqt.gz' ]
+        stderr: [ 'Preparing as pdbqt'],
 
-            ]
+        creates: [ 'should_be_pdbqt.pdbqt.gz' ]
+
+    ]
 
 ]
