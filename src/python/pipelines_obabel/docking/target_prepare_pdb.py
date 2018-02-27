@@ -28,11 +28,12 @@ def execute(input, output, extension, format, ph, noGzip):
     base_args = ["obabel", "-ipdb", input, format, "-O", filename]
     if ph:
         base_args.append("-p")
-        base_args.append("ph")
+        base_args.append(str(ph))
+    utils.log("Command: " + " ".join(base_args))
 
     subprocess.check_call(base_args, stdout=sys.stderr, stderr=sys.stderr)
 
-    # NOTE the -z argument does not seem to work correctly with obabel (truncted files generated) so we
+    # NOTE the -z argument does not seem to work correctly with obabel (truncated files generated) so we
     # fall back to good old gzip to handle the compression once the uncompressed file is created
     if not noGzip:
         subprocess.check_call(['gzip', filename], stdout=sys.stderr, stderr=sys.stderr)

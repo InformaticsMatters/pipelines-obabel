@@ -45,5 +45,5 @@
   "inputRoutes": [ {"route": "FILE"} ],
   "outputRoutes": [ {"route": "FILE"} ],
   "imageName": "informaticsmatters/pipelines-obabel:latest",
-  "command": "python -m pipelines_obabel.docking.obabel_prepare_pdb -i pdb.pdb.gz -o mol2 -mol2${protonate ? ' -prot ' + protonate : ''} --meta"
+  "command": "python -m pipelines_obabel.docking.target_prepare_pdb -i pdb.pdb.gz -o mol2 -mol2${protonate ? ' -prot ' + protonate : ''} --meta"
 }
