@@ -1,0 +1,44 @@
+---
+
+# The OpenShift Job definition for the Squonk Pipelines SD-Loader image.
+# With Squonk running you can execute this in the Squonk project namespace
+# to enable the defined pipelines
+# (by using the Ansible playbook 'pipelines-obabel/deploy.yaml')
+#
+# oc process -f post-service-descriptors.yaml | oc create -f -
+# oc delete job --selector template=pipelines-obabel-sd-poster
+
+kind: Template
+apiVersion: v1
+metadata:
+  name: pipelines-obabel-sd-poster
+labels:
+  template: pipelines-obabel-sd-poster
+
+parameters:
+
+- name: POSTER_IMAGE_TAG
+  value: latest
+
+objects:
+
+- kind: Job
+  apiVersion: batch/v1
+  metadata:
+    name: pipelines-obabel-sd-poster
+  spec:
+    template:
+      spec:
+
+        initContainers:
+        - image: yauritux/busybox-curl
+          name: wait-for-core-before-pipelines-post
+          command: ['sh', '-c',
+            'until (( curl http://coreservices:8080/rest/ping --connect-timeout 5 )); do sleep 2; done']
+
+        containers:
+        - image: informaticsmatters/obabel-pipelines-sdposter:${POSTER_IMAGE_TAG}
+          name: pipelines-obabel-sd-poster
+          imagePullPolicy: IfNotPresent
+
+        restartPolicy: Never

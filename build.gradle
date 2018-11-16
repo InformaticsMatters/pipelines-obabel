@@ -47,17 +47,17 @@ task buildDockerImage(type: DockerBuildImage) {
     tag = "informaticsmatters/pipelines-${pipeline}:latest"
 }
 
-task buildSdLoaderDockerImage(type: DockerBuildImage) {
-    description 'Builds the obabel SD-loader Docker image'
+task buildSdPosterDockerImage(type: DockerBuildImage) {
+    description 'Builds the Obabel pipelines SD-poster Docker image'
 
-    dockerFile = file('Dockerfile-sdloader')
+    dockerFile = file('Dockerfile-sdposter')
     inputDir = file('.')
-    tag = "informaticsmatters/pipelines-${pipeline}-sdloader:latest"
+    tag = "informaticsmatters/${pipeline}-pipelines-sdposter:latest"
 }
 
 task buildDockerImages() {
     dependsOn buildDockerImage
-    dependsOn buildSdLoaderDockerImage
+    dependsOn buildSdPosterDockerImage
 
     group 'Docker'
     description 'Builds all the project Docker images'
