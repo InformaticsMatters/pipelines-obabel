@@ -1,0 +1,52 @@
+---
+'@class': org.squonk.core.DockerServiceDescriptor
+command: >-
+  python -m pipelines_obabel.docking.target_prepare_pdb
+  -i pdb.pdb.gz
+  -o mol2
+  -mol2
+  ${protonate ? '-prot ' + protonate : ''}
+  --meta
+imageName: informaticsmatters/pipelines-obabel:latest
+inputRoutes:
+- route: FILE
+outputRoutes:
+- route: FILE
+serviceConfig:
+  description: Prepare PDB file using Open Babel
+  executorClassName: org.squonk.execution.steps.impl.ThinDatasetDockerExecutorStep
+  icon: icons/transform_molecule.png
+  id: pipelines.xchem.obabel.prepare.pdb.v1
+  inputDescriptors:
+  - mediaType: chemical/x-pdb
+    name: pdb
+    primaryType: org.squonk.types.PDBFile
+  name: OBabelPreparePDB
+  optionDescriptors:
+  - '@class': org.squonk.options.OptionDescriptor
+    description: Optionally protonate side chains at this pH
+    editable: true
+    key: arg.protonate
+    label: Protonate at pH
+    maxValues: 1
+    minValues: 0
+    modes:
+    - User
+    typeDescriptor:
+      '@class': org.squonk.options.SimpleTypeDescriptor
+      type: java.lang.Float
+    visible: true
+  outputDescriptors:
+  - mediaType: chemical/x-mol2
+    name: mol2
+    primaryType: org.squonk.types.Mol2File
+  resourceUrl: null
+  tags:
+  - rdkit
+  - xchem
+  - docker
+  - openbabel
+  - obabel
+  - prepare
+  - pdb
+  - convert
