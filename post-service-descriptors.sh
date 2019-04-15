@@ -14,7 +14,7 @@ CT_MM="multipart/mixed"
 
 for d in 'src/python/pipelines_obabel/docking'
 do
-    for file in $d/*.dsd.json
+    for file in $d/*.dsd.yml
     do
 	    echo $file
 	    curl -X POST \
