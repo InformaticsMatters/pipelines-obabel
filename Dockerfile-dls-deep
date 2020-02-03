@@ -2,15 +2,14 @@
 # structure files so that the dependency on RDKit can be removed.
 # See https://github.com/InformaticsMatters/pipelines-obabel/issues/1
 
-FROM informaticsmatters/obabel:2.4.1
+FROM informaticsmatters/deep-app-ubuntu-1604:latest
 LABEL maintainer="Tim Dudgeon<tdudgeon@informaticsmatters.com>"
 
 USER root
 
-RUN apt-get -y update && apt-get install -y --no-install-recommends openbabel python-openbabel
-
 # Copy the obabel pipeline implementation into the image
 COPY src/python /opt/python-obabel
-RUN apt-get install -y --no-install-recommends python-setuptools gzip python-pip && pip install -e /opt/python-obabel
+RUN pip3 install im-pipelines-utils==2.4.* &&\
+  pip3 install -e /opt/python-obabel
 
-
+ENTRYPOINT ["bash", "execute"]

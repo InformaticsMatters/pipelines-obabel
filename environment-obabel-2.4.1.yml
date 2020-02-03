@@ -1,0 +1,6 @@
+name: obabel-2.4.1
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - openbabel=2.4.1

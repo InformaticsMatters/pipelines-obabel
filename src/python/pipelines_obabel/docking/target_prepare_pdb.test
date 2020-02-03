@@ -4,13 +4,6 @@
 
     version = 1,
 
-    // A basic start-up test for the module.
-    // Simply makes sure it starts cleanly.
-    test_help = [
-
-        command: '''python -m pipelines_obabel.docking.target_prepare_pdb -h'''
-
-    ],
 
     test_prepare_mol2 = [
 
@@ -18,15 +11,6 @@
 
             see: [ 'Preparing as mol2'],
             creates: [ 'should_be_mol2.mol2.gz' ]
-
-    ],
-
-    test_prepare_pdbqt = [
-
-            command: 'python -m pipelines_obabel.docking.target_prepare_pdb -i ${PIN}DCP2_1.pdb.gz -o ${POUT}should_be_pdbqt --pdbqt',
-
-            see: [ 'Preparing as pdbqt'],
-            creates: [ 'should_be_pdbqt.pdbqt.gz' ]
 
     ],
 

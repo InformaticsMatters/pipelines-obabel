@@ -39,10 +39,10 @@ task dist(type: Copy) {
 def pipeline = 'obabel'
 def squonkSdDir = '../squonk/docker/deploy/data/docker-services'
 
-task buildDockerImage(type: DockerBuildImage) {
+task buildPipelinesDockerImage(type: DockerBuildImage) {
     description 'Builds the obabel Docker image'
 
-    dockerFile = file('Dockerfile')
+    dockerFile = file('Dockerfile-pipelines')
     inputDir = file('.')
     tag = "informaticsmatters/pipelines-${pipeline}:latest"
 }
@@ -52,12 +52,21 @@ task buildSdPosterDockerImage(type: DockerBuildImage) {
 
     dockerFile = file('Dockerfile-sdposter')
     inputDir = file('.')
-    tag = "informaticsmatters/${pipeline}-pipelines-sdposter:latest"
+    tag = "informaticsmatters/pipelines-${pipeline}-sdposter:latest"
+}
+
+task buildDlsDeepDockerImage(type: DockerBuildImage) {
+    description 'Builds the DLS Deep learing pipelines Docker image'
+
+    dockerFile = file('Dockerfile-dls-deep')
+    inputDir = file('.')
+    tag = "informaticsmatters/pipelines-${pipeline}-dls-deep:latest"
 }
 
 task buildDockerImages() {
-    dependsOn buildDockerImage
+    dependsOn buildPipelinesDockerImage
     dependsOn buildSdPosterDockerImage
+    dependsOn buildDlsDeepDockerImage
 
     group 'Docker'
     description 'Builds all the project Docker images'

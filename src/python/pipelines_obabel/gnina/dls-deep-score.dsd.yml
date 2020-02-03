@@ -1,0 +1,38 @@
+---
+"@class": org.squonk.core.DockerServiceDescriptor
+serviceConfig:
+  id: pipelines.obabel.xchem.gnina.deepscore.v1
+  name: DLSDeepScore
+  description: Score docking poses using deep learning
+  tags:
+  - gnina
+  - docking
+  - scoring
+  - xchem
+  - 3d
+  - docker
+  resourceUrl:
+  icon: icons/filter_molecules.png
+  inputDescriptors:
+  - primaryType: org.squonk.types.SDFile
+    mediaType: chemical/x-mdl-sdfile
+    name: input
+  - primaryType: org.squonk.types.PDBFile
+    mediaType: chemical/x-pdb
+    name: receptor
+  outputDescriptors:
+  - primaryType: org.squonk.types.SDFile
+    mediaType: chemical/x-mdl-sdfile
+    name: output
+  executorClassName: org.squonk.execution.steps.impl.ThinDatasetDockerExecutorStep
+thinDescriptors:
+- input: input
+  output: output
+inputRoutes:
+- route: FILE
+- route: FILE
+outputRoutes:
+- route: FILE
+imageName: informaticsmatters/deep-app-ubuntu-1604:latest
+command: >-
+  python -m pipelines_obabel.gnina.dls-deep-score --receptor ${PIN}receptor.pdb --ligands ${PIN}input.sdf --mock
