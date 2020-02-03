@@ -5,45 +5,45 @@ serviceConfig:
   name: OBabelPDB2Mol2
   description: Prepare PDB file at specified pH using Open Babel generating an Mol2 format file
   tags:
-  - rdkit
-  - xchem
-  - docker
-  - openbabel
-  - obabel
-  - prepare
-  - pdb
-  - mol2
-  - convert
+    - rdkit
+    - xchem
+    - docker
+    - openbabel
+    - obabel
+    - prepare
+    - pdb
+    - mol2
+    - convert
   resourceUrl:
   icon: icons/transform_molecule.png
   inputDescriptors:
-  - primaryType: org.squonk.types.PDBFile
-    mediaType: chemical/x-pdb
-    name: input
+    - primaryType: org.squonk.types.PDBFile
+      mediaType: chemical/x-pdb
+      name: input
   outputDescriptors:
-  - primaryType: org.squonk.types.Mol2File
-    mediaType: chemical/x-mol2
-    name: output
+    - primaryType: org.squonk.types.Mol2File
+      mediaType: chemical/x-mol2
+      name: output
   optionDescriptors:
-  - modes:
-    - User
-    editable: true
-    "@class": org.squonk.options.OptionDescriptor
-    typeDescriptor:
-      type: java.lang.Float
-      "@class": org.squonk.options.SimpleTypeDescriptor
-    key: arg.protonate
-    label: Protonate at pH
-    description: Protonate side chains at this pH
-    visible: true
-    defaultValue: 7.4
-    minValues: 1
-    maxValues: 1
+    - modes:
+        - User
+      editable: true
+      "@class": org.squonk.options.OptionDescriptor
+      typeDescriptor:
+        type: java.lang.Float
+        "@class": org.squonk.options.SimpleTypeDescriptor
+      key: arg.protonate
+      label: Protonate at pH
+      description: Protonate side chains at this pH
+      visible: true
+      defaultValue: 7.4
+      minValues: 1
+      maxValues: 1
   executorClassName: org.squonk.execution.steps.impl.ThinDatasetDockerExecutorStep
 inputRoutes:
-- route: FILE
+  - route: FILE
 outputRoutes:
-- route: FILE
+  - route: FILE
 imageName: informaticsmatters/pipelines-obabel
 command: |-
   obabel input.pdb.gz -o mol2 -O output.mol2 -p $protonate
